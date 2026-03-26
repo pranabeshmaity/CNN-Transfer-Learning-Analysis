@@ -4,7 +4,7 @@
 #include <limits>
 #include <cmath>
 
-// --- CONSTRUCTORS ---
+// CONSTRUCTORS
 Tensor::Tensor(const std::vector<int>& shape) : shape(shape) {
     long long total = 1;
     for (int s : shape) total *= s;
@@ -14,7 +14,7 @@ Tensor::Tensor(const std::vector<int>& shape) : shape(shape) {
 Tensor::Tensor(const std::vector<float>& data, const std::vector<int>& shape) 
     : data(data), shape(shape) {}
 
-// --- UTILS ---
+// UTILS
 int Tensor::size() const {
     int total = 1;
     for (int s : shape) total *= s;
@@ -38,7 +38,7 @@ Tensor Tensor::from_uint8(const std::string& raw_bytes, const std::vector<int>& 
     return t;
 }
 
-// --- BASIC MATH ---
+// BASIC MATH
 Tensor Tensor::add(const Tensor& other) const {
     std::vector<float> res(size());
     int s2 = other.size();
@@ -70,7 +70,7 @@ Tensor Tensor::transpose() const {
     return Tensor(res, {C, R});
 }
 
-// --- LIGHTNING UPDATES ---
+// LIGHTNING UPDATES
 Tensor Tensor::matmul_transpose_left(const Tensor& other) const {
     // Computes (this^T) @ other
     int K = shape[0]; 
@@ -105,7 +105,7 @@ void Tensor::sgd_update(const Tensor& grad, float lr) {
     }
 }
 
-// --- ACTIVATIONS ---
+// ACTIVATIONS
 Tensor Tensor::relu() const {
     std::vector<float> res = data;
     for (float& v : res) if (v < 0) v = 0;
@@ -119,7 +119,7 @@ Tensor Tensor::relu_backward(const Tensor& grad_output) const {
     return Tensor(res, shape);
 }
 
-// --- CNN OPERATIONS ---
+// CNN OPERATIONS
 Tensor Tensor::conv2d(const Tensor& kernel, int stride, int padding) const {
     int N = shape[0], H = shape[1], W = shape[2], C = shape[3];
     int KH = kernel.shape[0], KW = kernel.shape[1], F = kernel.shape[3];
@@ -178,7 +178,7 @@ Tensor Tensor::maxpool2d(int kernel_size, int stride) const {
     return res;
 }
 
-// --- GRADIENT OPERATIONS ---
+// GRADIENT OPERATIONS
 Tensor Tensor::conv2d_grad_input(const Tensor& kernel, const Tensor& grad_output, int stride, int padding) const {
     int N = shape[0], H = shape[1], W = shape[2], C = shape[3];
     int KH = kernel.shape[0], KW = kernel.shape[1], F = kernel.shape[3];
