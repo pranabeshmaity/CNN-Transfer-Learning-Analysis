@@ -1,4 +1,4 @@
-# GNR638: Assignment 2 — CNN Transfer Learning
+# Assignment 2 — CNN Transfer Learning
 
 Pre-trained CNN representation transfer and robustness analysis on the Aerial Images Dataset (AID), 30-class classification.
 
